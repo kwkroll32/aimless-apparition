@@ -63,7 +63,7 @@ func ExtractWordFromTweet(word, tweet string) []string {
         // append the next word to the out array
         tweetArray := strings.Split(tweet, " ")
         for tweetPos,tweetWord := range(tweetArray) {
-            if strings.EqualFold(word,tweetWord) {
+            if (strings.EqualFold(word,tweetWord)) && (tweetPos < len(tweetArray)-1) {
                 outstrings = append(outstrings, tweetArray[tweetPos+1])
             }
         }     
