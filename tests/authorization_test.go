@@ -67,12 +67,19 @@ func TestLaunchNewAPI(t *testing.T) {
 func TestTweetParserThatPulls1WordAfterASearchTerm(t *testing.T) {
     var res []string
     var cases [][2]string
+    var answers [][]string
     cases = append(cases, [2]string{"hello", "hello world"})
+    answers = append(answers, []string{"world"})
     cases = append(cases, [2]string{"hello", "hello world hello"})
+    answers = append(answers, []string{"world"})
+    cases = append(cases, [2]string{"hello", "hello world hello world"})
+    answers = append(answers, []string{"world","world"})
+    cases = append(cases, [2]string{"Hello", "hello hello world"})
+    answers = append(answers, []string{"hello","world"})
     
-    for _,pair := range(cases) {
+    for counter,pair := range(cases) {
         res = aimless.ExtractWordFromTweet(pair[0], pair[1])
-        if !reflect.DeepEqual(res,[]string{"world"}) {
+        if !reflect.DeepEqual(res,answers[counter]) {
             var errorWords string 
             for _,wrongWord := range(res) {
                 errorWords+=wrongWord + " "

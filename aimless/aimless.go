@@ -58,7 +58,7 @@ func Search(api *anaconda.TwitterApi ,term string, count int) []string {
 func ExtractWordFromTweet(word, tweet string) []string {
     // init a nil string incase the word cannot be found in the tweet 
     var outstrings []string 
-    if strings.Contains(tweet, word) {
+    if strings.Contains( strings.ToLower(tweet), strings.ToLower(word)) {
         // check all words in the tweet for matches (case insensitive)
         // append the next word to the out array
         tweetArray := strings.Split(tweet, " ")
