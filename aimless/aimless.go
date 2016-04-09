@@ -2,13 +2,13 @@ package aimless
 
 // native packages 
 import (
-    "fmt"
     "os"
     "encoding/json"
     "net/url"
     "log"
     "strings"
     "strconv"
+    //"fmt"
 )
 
 // external packages
@@ -61,28 +61,13 @@ func ExtractWordFromTweet(word, tweet string) []string {
     if strings.Contains( strings.ToLower(tweet), strings.ToLower(word)) {
         // check all words in the tweet for matches (case insensitive)
         // append the next word to the out array
-        tweetArray := strings.Split(tweet, " ")
+        tweetArray := strings.Fields(tweet)
         for tweetPos,tweetWord := range(tweetArray) {
             if (strings.EqualFold(word,tweetWord)) && (tweetPos < len(tweetArray)-1) {
                 outstrings = append(outstrings, tweetArray[tweetPos+1])
             }
         }     
     }
+    
     return outstrings
-}
-
-func main() {
-    api := LaunchMyAPI()
-    v := url.Values{}
-    v.Set("count","300")
-    searchRes, err := api.GetSearch("tea", v)
-    if err != nil{
-        log.Fatal(err)
-    }
-    for _,tweet := range(searchRes.Statuses) {
-        fmt.Println(tweet.User.Name)
-        fmt.Println(tweet.CreatedAt)
-        fmt.Println(tweet.Text )
-        fmt.Println()
-    }       
 }

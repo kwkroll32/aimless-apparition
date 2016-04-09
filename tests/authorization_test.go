@@ -76,10 +76,14 @@ func TestTweetParserThatPulls1WordAfterASearchTerm(t *testing.T) {
     answers = append(answers, []string{"world","world"})
     cases = append(cases, [2]string{"Hello", "hello hello world"})
     answers = append(answers, []string{"hello","world"})
+    cases = append(cases, [2]string{"tea", "Ice tea best boisson"})
+    answers = append(answers, []string{"best"})
+    cases = append(cases, [2]string{"tea", " I take my tea in a Massey every morning"})
+    answers = append(answers, []string{"in"})
     
-    for counter,pair := range(cases) {
+    for caseNumber,pair := range(cases) {
         res = aimless.ExtractWordFromTweet(pair[0], pair[1])
-        if !reflect.DeepEqual(res,answers[counter]) {
+        if !reflect.DeepEqual(res,answers[caseNumber]) {
             var errorWords string 
             for _,wrongWord := range(res) {
                 errorWords+=wrongWord + " "
