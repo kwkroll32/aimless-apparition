@@ -102,6 +102,10 @@ func TestTweetParserThatPulls1WordAfterASearchTerm(t *testing.T) {
     
 }
 
+func TestTweetWordPullProbabilityCalculator(t *testing.T) {
+    t.Errorf("to do")
+}
+
 func TestMain(m *testing.M) {
     res := m.Run()
     os.Exit(res)
