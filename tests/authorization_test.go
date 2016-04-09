@@ -68,7 +68,7 @@ func TestTweetParserThatPulls1WordAfterASearchTerm(t *testing.T) {
     var res []string
     var cases [][2]string
     cases = append(cases, [2]string{"hello", "hello world"})
-    //cases = append(cases, [2]string{"hello", "hello world hello"})
+    cases = append(cases, [2]string{"hello", "hello world hello"})
     
     for _,pair := range(cases) {
         res = aimless.ExtractWordFromTweet(pair[0], pair[1])
