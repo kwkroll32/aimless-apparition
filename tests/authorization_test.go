@@ -6,12 +6,15 @@ import (
     "os"
     "testing"
     "encoding/json"
+    //"strconv"
+    "reflect"
 )
 
 // external packages
 import (
    "github.com/ChimeraCoder/anaconda"
    "github.com/kwkroll32/aimless-apparition/Settings"
+   "github.com/kwkroll32/aimless-apparition/aimless"
 )
 
 func TestParseTwitterSettingsJson(t *testing.T) {
@@ -43,6 +46,7 @@ func TestLaunchNewAPI(t *testing.T) {
     if err != nil {
         t.Errorf("cannot open the twitter settings json file: ../secret_keys.json")
     }
+    defer twitterSettingsFile.Close()
     twitterSettings := TwitterSettings.TwitterSettings{}
     jsonParser := json.NewDecoder(twitterSettingsFile)
     if err = jsonParser.Decode(&twitterSettings); err != nil {
@@ -59,6 +63,35 @@ func TestLaunchNewAPI(t *testing.T) {
         t.Errorf("twitter credentials invalid")
     }
 }
+
+func TestTweetParserThatPulls1WordAfterASearchTerm(t *testing.T) {
+    var res []string
+    var cases [][2]string
+    cases = append(cases, [2]string{"hello", "hello world"})
+    //cases = append(cases, [2]string{"hello", "hello world hello"})
+    
+    for _,pair := range(cases) {
+        res = aimless.ExtractWordFromTweet(pair[0], pair[1])
+        if !reflect.DeepEqual(res,[]string{"world"}) {
+            var errorWords string 
+            for _,wrongWord := range(res) {
+                errorWords+=wrongWord + " "
+            }
+            t.Errorf("word extraction failed; expected " + "world" + " but got " + errorWords)
+        }  
+    }
+    
+    /* doesnt actually test the aimless.Search function; can't inject fake tweets into the api to try it 
+    api := aimless.LaunchMyAPI()
+    searchRes := aimless.Search(api, "term", 10)
+    for i,word := range(searchRes) {
+        fmt.Println(strconv.Itoa(i), word)
+    }
+    */
+    
+}
+
 func TestMain(m *testing.M) {
-    os.Exit(m.Run())
+    res := m.Run()
+    os.Exit(res)
 }
